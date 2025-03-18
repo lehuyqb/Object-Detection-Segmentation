@@ -1,4 +1,23 @@
-weights_path: weights/best.pt
-class_names: ['class1', 'class2']  # Replace with your actual class names
-confidence_threshold: 0.5
-img_size: 416 
+model:
+  weights_path: weights/best.pt
+  img_size: 640
+  conf_thres: 0.25
+  iou_thres: 0.45
+  max_det: 1000
+  device: cuda  # or cpu
+
+classes:
+  names: [
+    'person', 'bicycle', 'car', 'motorcycle', 'bus',
+    'truck', 'traffic light', 'stop sign', 'bench', 'bird'
+  ]
+
+server:
+  host: 0.0.0.0
+  port: 5000
+  debug: false
+  
+preprocessing:
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  resize_mode: letterbox  # or stretch 

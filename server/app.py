@@ -7,7 +7,7 @@ from PIL import Image
 import io
 import base64
 from models.yolo import create_model
-
+import os
 app = Flask(__name__)
 CORS(app)
 
@@ -108,10 +108,10 @@ def health_check():
 if __name__ == '__main__':
     # Load model and class names from config
     import yaml
-    with open('config.yaml', 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__), 'config.yaml'), 'r') as f:
         config = yaml.safe_load(f)
     
-    class_names = config['class_names']
-    load_model(config['weights_path'], len(class_names))
+    class_names = config['classes']['names']
+    load_model(config['model']['weights_path'], len(class_names))
     
     app.run(host='0.0.0.0', port=5000) 

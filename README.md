@@ -185,6 +185,45 @@ The training script saves:
 - `weights/best.pt`: Best model based on validation loss (or training loss if no validation set)
 - `weights/last.pt`: Latest model state
 
+## Server Configuration
+
+The server uses a `config.yaml` file located in the `server` directory to manage various settings:
+
+```yaml
+model:
+  weights_path: weights/best.pt  # Path to model weights
+  img_size: 640                  # Input image size
+  conf_thres: 0.25              # Confidence threshold
+  iou_thres: 0.45               # NMS IoU threshold
+  max_det: 1000                 # Maximum detections per image
+  device: cuda                  # Device to run on (cuda or cpu)
+
+classes:
+  names: [
+    'person', 'bicycle', 'car', 'motorcycle', 'bus',
+    'truck', 'traffic light', 'stop sign', 'bench', 'bird'
+  ]
+
+server:
+  host: 0.0.0.0                 # Server host
+  port: 5000                    # Server port
+  debug: false                  # Debug mode
+
+preprocessing:
+  mean: [0.485, 0.456, 0.406]  # Image normalization mean
+  std: [0.229, 0.224, 0.225]   # Image normalization std
+  resize_mode: letterbox        # Image resize mode (letterbox or stretch)
+```
+
+### Important Notes:
+1. The number of classes in `config.yaml` must match the model checkpoint's number of classes
+2. The default configuration is set up for a 10-class model trained on a subset of COCO dataset
+3. If using a custom model, update the class names and ensure the model architecture matches the number of classes
+4. The model's detection heads expect (num_classes + 5) × 3 output channels for each prediction:
+   - num_classes: number of object classes to detect
+   - 5: four box coordinates plus one objectness score
+   - 3: number of anchors per detection head
+
 ## License
 
 This project is released under the MIT License.
