@@ -1,0 +1,24 @@
+# Dataset paths
+train: data/train/images  # Path to training images
+train_labels: data/train/labels  # Path to training labels
+val: data/val/images  # Path to validation images
+val_labels: data/val/labels  # Path to validation labels
+test: data/test/images  # Path to test images
+test_labels: data/test/labels  # Path to test labels
+
+# Classes
+names:
+  0: person
+  1: car
+  2: motorcycle
+  3: bus
+  4: truck
+  5: traffic light
+  6: stop sign
+  7: bicycle
+  8: dog
+  9: cat
+
+# Training parameters
+nc: 10  # number of classes
+img_size: 640  # training image size 

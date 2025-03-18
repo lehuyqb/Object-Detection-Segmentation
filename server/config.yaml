@@ -1,0 +1,4 @@
+weights_path: weights/best.pt
+class_names: ['class1', 'class2']  # Replace with your actual class names
+confidence_threshold: 0.5
+img_size: 416 
