@@ -1,6 +1,6 @@
 # Object Detection and Segmentation
 
-A PyTorch implementation of YOLOv5 for object detection and segmentation, optimized for memory efficiency and ease of use.
+A PyTorch implementation of YOLOv5 for object detection and segmentation, optimized for memory efficiency and ease of use. Features both CPU and GPU support with Docker deployment.
 
 ## Features
 
@@ -24,19 +24,70 @@ A PyTorch implementation of YOLOv5 for object detection and segmentation, optimi
   - Cosine learning rate scheduling
   - TensorBoard logging
   - Checkpoint saving
+- Deployment features:
+  - Docker containerization
+  - GPU acceleration support
+  - React-based web interface
+  - RESTful API endpoints
 
 ## Requirements
 
+### Local Development
 ```bash
 pip install -r requirements.txt
 ```
 
 Key dependencies:
+- Python 3.9+
+- Flask 2.3.3
 - PyTorch >= 2.0
 - Albumentations
 - OpenCV
 - TensorBoard
 - PyYAML
+
+### Docker Deployment
+- Docker Engine
+- Docker Compose
+- NVIDIA Container Toolkit (for GPU support)
+- NVIDIA GPU with CUDA support (optional)
+
+## Docker Deployment
+
+### Prerequisites for GPU Support
+
+1. Install NVIDIA Container Toolkit:
+```bash
+# Add NVIDIA package repositories
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+# Install NVIDIA Container Toolkit
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
+
+2. Verify GPU support:
+```bash
+sudo docker run --rm --gpus all nvidia/cuda:12.0.0-base-ubuntu22.04 nvidia-smi
+```
+
+### Running the Application
+
+1. Build and start the containers:
+```bash
+docker-compose up --build
+```
+
+2. Access the application:
+- Web interface: http://localhost
+- API endpoint: http://localhost:5000
+
+The application will automatically use GPU acceleration if available.
 
 ## Dataset Structure
 
@@ -111,6 +162,22 @@ Metrics tracked:
 - Validation loss (when validation set is available)
 - Learning rate
 - Best model checkpoints
+
+## API Endpoints
+
+The server provides the following REST API endpoints:
+
+- `POST /predict`
+  - Accepts: Multipart form data with an image file
+  - Returns: JSON with detection results including bounding boxes and class labels
+
+## Web Interface
+
+The React-based web interface provides:
+- Image upload functionality
+- Real-time object detection visualization
+- Detection results display
+- Responsive design for various screen sizes
 
 ## Checkpoints
 
