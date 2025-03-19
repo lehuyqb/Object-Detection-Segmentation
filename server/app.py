@@ -76,7 +76,7 @@ def post_process_predictions(predictions, confidence_threshold=0.5):
     
     return results
 
-@app.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
 def predict():
     if model is None:
         return jsonify({'error': 'Model not loaded'}), 500

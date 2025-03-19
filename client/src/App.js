@@ -57,7 +57,7 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/predict`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

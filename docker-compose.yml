@@ -6,6 +6,7 @@ services:
       context: ./server
       args:
         USE_CUDA: "true"  # Enable CUDA support
+      dockerfile: Dockerfile
     deploy:
       resources:
         reservations:
@@ -17,15 +18,24 @@ services:
       - "5000:5000"
     volumes:
       - ./weights:/app/weights
+      - ./models:/app/models
     environment:
       - FLASK_ENV=production
       - CUDA_VISIBLE_DEVICES=0
+    networks:
+      - object-detection-segmentation
 
   client:
     build: ./client
     ports:
-      - "80:80"
+      - "3000:3000"
     depends_on:
       - server
     environment:
-      - REACT_APP_API_URL=http://localhost:5000 
+      - REACT_APP_API_URL=http://localhost:5000
+    networks:
+      - object-detection-segmentation
+
+networks:
+  object-detection-segmentation:
+    name: object-detection-segmentation 

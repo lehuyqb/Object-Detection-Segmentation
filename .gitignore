@@ -31,3 +31,6 @@ __pycache__/
 
 checkpoints/
 runs/
+
+client/node_modules/
+client/build/
